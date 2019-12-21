@@ -8,8 +8,7 @@
 kubectl apply -f deployment/server.yaml
 ```
 
-2. Install WireShark to capture packets
-See [how to capture http2](https://github.com/elixir-grpc/grpc/wiki/How-to-capture-HTTP2-packages-using-Wireshark).
+2. Install WireShark to capture packets,see [how to capture http2](https://github.com/elixir-grpc/grpc/wiki/How-to-capture-HTTP2-packages-using-Wireshark).
 
 3. Turn on OpenVPN and run the client
 
