@@ -26,7 +26,12 @@ type client struct {
 
 func (c *client) SayHello(ws uint) {
 	if ws <= 0 {
-		c.sayHello()
+		r, err := c.sayHello()
+		if err != nil {
+			log.Printf("error from the server: %v", err)
+		}
+
+		log.Printf("greeting: %s", r)
 		return
 	}
 
@@ -58,6 +63,7 @@ func main() {
 	flag.Parse()
 
 	// Set up a connection to the server.
+	log.Printf("open the connection to %s", *address+":"+*port)
 	conn, err := grpc.Dial(*address+":"+*port, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
