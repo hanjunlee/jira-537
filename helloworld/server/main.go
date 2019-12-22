@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"net"
+	"time"
 
 	pb "github.com/hanjunlee/jira-537/helloworld/helloworld"
 	"google.golang.org/grpc"
@@ -20,6 +21,7 @@ type server struct {
 
 func (s *server) SayHello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, error) {
 	log.Printf("recieve from %s", req.Name)
+	time.Sleep(2*time.Second)
 	return &pb.HelloResponse{
 		Message: "hello " + req.Name,
 	}, nil

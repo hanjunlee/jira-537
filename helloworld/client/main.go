@@ -15,7 +15,8 @@ const (
 )
 
 var (
-	waitSecond = flag.Uint("wait", 0, "The time of waiting the next call. If the value is 0 the client request only one time.")
+	waitSecond = flag.Uint("wait", 1, "The time of waiting the next call. If the value is 0 the client request only one time.")
+	once       = flag.Bool("once", false, "Request once.")
 	address    = flag.String("addr", "localhost", "The address of the server.")
 	port       = flag.String("port", "9000", "The port of the server.")
 )
@@ -25,16 +26,6 @@ type client struct {
 }
 
 func (c *client) SayHello(ws uint) {
-	if ws <= 0 {
-		r, err := c.sayHello()
-		if err != nil {
-			log.Printf("error from the server: %v", err)
-		}
-
-		log.Printf("greeting: %s", r)
-		return
-	}
-
 	ticker := time.NewTicker(time.Duration(ws) * time.Second)
 	defer ticker.Stop()
 
@@ -50,6 +41,15 @@ func (c *client) SayHello(ws uint) {
 			log.Printf("greeting: %s", r)
 		}
 	}
+}
+
+func (c *client) SayHelloOnce() {
+	r, err := c.sayHello()
+	if err != nil {
+		log.Printf("error from the server: %v", err)
+	}
+
+	log.Printf("greeting: %s", r)
 }
 
 func (c *client) sayHello() (*pb.HelloResponse, error) {
@@ -73,5 +73,11 @@ func main() {
 	c := &client{
 		gc: pb.NewGreeterClient(conn),
 	}
+
+	if *once {
+		c.SayHelloOnce()
+		return 
+	}
+
 	c.SayHello(*waitSecond)
 }

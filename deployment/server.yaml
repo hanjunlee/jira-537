@@ -16,10 +16,13 @@ spec:
         app: helloworld
     spec:
       containers:
-      - name: helloworld
-        image: hanjunlee/jira-537:server
-        ports:
-        - containerPort: 50051
+        - name: helloworld
+          image: hanjunlee/jira-537:server
+          imagePullPolicy: Always
+          ports:
+            - name: grpc
+              protocol: TCP
+              containerPort: 9000
 ---
 kind: Service
 apiVersion: v1
@@ -29,6 +32,7 @@ spec:
   selector:
     app: helloworld
   ports:
-  - protocol: TCP
-    port: 50051
-    targetPort: 50051
+    - name: grpc
+      protocol: TCP
+      port: 9000
+      targetPort: grpc
