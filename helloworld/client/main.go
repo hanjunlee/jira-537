@@ -17,6 +17,7 @@ const (
 var (
 	waitSecond = flag.Uint("wait", 0, "The time of waiting the next call. If the value is 0 the client request only one time.")
 	address    = flag.String("addr", "localhost", "The address of the server.")
+	port       = flag.String("port", "9000", "The port of the server.")
 )
 
 type client struct {
@@ -29,12 +30,12 @@ func (c *client) SayHello(ws uint) {
 		return
 	}
 
-	ticker := time.NewTicker(time.Duration(ws)*time.Second)
+	ticker := time.NewTicker(time.Duration(ws) * time.Second)
 	defer ticker.Stop()
 
 	for {
 		select {
-		case t := <-ticker.C :
+		case t := <-ticker.C:
 			log.Printf("current time: %s", t)
 			r, err := c.sayHello()
 			if err != nil {
@@ -57,7 +58,7 @@ func main() {
 	flag.Parse()
 
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(*address+":50051", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(*address+":"+*port, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
