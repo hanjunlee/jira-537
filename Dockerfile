@@ -2,6 +2,12 @@ FROM golang:1.13 AS build
 
 WORKDIR /app
 
+COPY go.mod go.mod
+
+COPY go.sum go.sum
+
+RUN go mod download
+
 COPY . .
 
 RUN go build -o /go/bin/client helloworld/client/main.go
