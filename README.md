@@ -13,5 +13,5 @@ kubectl apply -f deployment/server.yaml
 3. Turn on OpenVPN and run the client
 
 ```
-go run helloworld/client/main.go -addr helloworld.buzzvil-internal.com:50051 -wait 351
+go run helloworld/client/main.go -addr HOSTNAME -wait 351
 ```

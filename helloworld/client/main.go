@@ -16,7 +16,7 @@ const (
 
 var (
 	waitSecond = flag.Uint("wait", 0, "The time of waiting the next call. If the value is 0 the client request only one time.")
-	address    = flag.String("addr", "localhost:50051", "The address of the server.")
+	address    = flag.String("addr", "localhost", "The address of the server.")
 )
 
 type client struct {
@@ -57,7 +57,7 @@ func main() {
 	flag.Parse()
 
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(*address, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(*address+":50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
