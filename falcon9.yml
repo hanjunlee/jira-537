@@ -1,7 +1,4 @@
-env: production
-
----
-env: staging
-
----
-env: dev
+pipelines:
+  - env: prod
+  - env: staging
+  - env: dev
